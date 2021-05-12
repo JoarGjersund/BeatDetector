@@ -1,3 +1,6 @@
+#ifndef _beatdetector_h // include guard
+#define _beatdetector_h
+
 #include <Arduino.h>
 #include <Wire.h>
 // FHT, see http://wiki.openmusiclabs.com/wiki/ArduinoFHT
@@ -131,3 +134,5 @@ class Beatdetector {
 
 
 };
+
+#endif
