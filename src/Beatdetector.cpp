@@ -41,7 +41,7 @@ void Beatdetector::update() {
 
 }
 
-void readAudioSamples() {
+void Beatdetector::readAudioSamples() {
   long currentAverage = 0;
   long currentMaximum = 0;
   long currentMinimum = MAXIMUM_SIGNAL_VALUE;
@@ -98,7 +98,7 @@ void Beatdetector::getFrequencyData() {
   fht_mag_log(); // get the magnitude of each bin in the FHT
 }
 
-void logFrequencyData() {
+void Beatdetector::logFrequencyData() {
 #ifdef FreqSerialBinary
   // print as binary
   Serial.write(255); // send a start byte
@@ -116,7 +116,7 @@ void logFrequencyData() {
  * Will extract insightful features from the frequency data in order
  * to perform the beat detection.
  */
-void processFrequencyData() {
+void Beatdetector::processFrequencyData() {
   // each of the methods below will:
   //  - get the current frequency magnitude
   //  - add the current magnitude to the history
@@ -132,7 +132,7 @@ void processFrequencyData() {
   }
 }
 
-void processOverallFrequencyMagnitude() {
+void Beatdetector::processOverallFrequencyMagnitude() {
   currentOverallFrequencyMagnitude = getFrequencyMagnitude(
     fht_log_out, 
     OVERALL_FREQUENCY_RANGE_START, 
@@ -149,7 +149,7 @@ void processOverallFrequencyMagnitude() {
   );
 }
 
-void processFirstFrequencyMagnitude() {
+void Beatdetector::processFirstFrequencyMagnitude() {
   currentFirstFrequencyMagnitude = getFrequencyMagnitude(
     fht_log_out, 
     FIRST_FREQUENCY_RANGE_START, 
@@ -166,7 +166,7 @@ void processFirstFrequencyMagnitude() {
   );
 }
 
-void processSecondFrequencyMagnitude() {
+void Beatdetector::processSecondFrequencyMagnitude() {
   currentSecondFrequencyMagnitude = getFrequencyMagnitude(
     fht_log_out, 
     SECOND_FREQUENCY_RANGE_START, 
@@ -183,7 +183,7 @@ void processSecondFrequencyMagnitude() {
   );
 }
 
-byte getFrequencyMagnitude(byte frequencies[], const int startIndex, const int endIndex) {
+byte Beatdetector::getFrequencyMagnitude(byte frequencies[], const int startIndex, const int endIndex) {
   int total = 0;
   int average = 0;
   int maximum = 0;
@@ -207,7 +207,7 @@ byte getFrequencyMagnitude(byte frequencies[], const int startIndex, const int e
   return value;
 }
 
-void processHistoryValues(byte history[], int &historyIndex, int &current, int &total, int &average, int &variance) {
+void Beatdetector::processHistoryValues(byte history[], int &historyIndex, int &current, int &total, int &average, int &variance) {
   total -= history[historyIndex]; // subtract the oldest history value from the total
   total += (byte) current; // add the current value to the total
   history[historyIndex] = current; // add the current value to the history
@@ -226,7 +226,7 @@ void processHistoryValues(byte history[], int &historyIndex, int &current, int &
  * Will update the beat probability, a value between 0 and 1
  * indicating how likely it is that there's a beat right now.
  */
-void updateBeatProbability() {
+void Beatdetector::updateBeatProbability() {
   beatProbability = 1;
   beatProbability *= calculateSignalChangeFactor();
   beatProbability *= calculateMagnitudeChangeFactor();
@@ -246,7 +246,7 @@ void updateBeatProbability() {
  * different frequency bands.
  * Low values are indicating a low beat probability.
  */
-float calculateSignalChangeFactor() {
+float Beatdetector::calculateSignalChangeFactor() {
   float aboveAverageSignalFactor;
   if (averageSignal < 75 || currentSignal < 150) {
     aboveAverageSignalFactor = 0;
@@ -266,7 +266,7 @@ float calculateSignalChangeFactor() {
  * different frequency bands.
  * Low values are indicating a low beat probability.
  */
-float calculateMagnitudeChangeFactor() {
+float Beatdetector::calculateMagnitudeChangeFactor() {
   float changeThresholdFactor = 1.1;
   if (durationSinceLastBeat < 750) {
     // attempt to not miss consecutive beats
@@ -338,7 +338,7 @@ float calculateMagnitudeChangeFactor() {
  * frequencies changed in the last few milliseconds.
  * Low values are indicating a low beat probability.
  */
-float calculateVarianceFactor() {
+float Beatdetector::calculateVarianceFactor() {
   // a beat also requires a high variance in recent frequency magnitudes
   float firstVarianceFactor = ((float) (firstFrequencyMagnitudeVariance - 50) / 20) - 1;
   firstVarianceFactor = constrain(firstVarianceFactor, 0, 1);
@@ -373,7 +373,7 @@ float calculateRecencyFactor() {
 /**
  * Will update the light intensity bump based on the recency of detected beats.
  */
-void updateLightIntensityBasedOnBeats() {
+void Beatdetector::updateLightIntensityBasedOnBeats() {
   float intensity = 1 - ((float) durationSinceLastBeat / LIGHT_FADE_OUT_DURATION);
   intensity = constrain(intensity, 0, 1);
   
@@ -386,7 +386,7 @@ void updateLightIntensityBasedOnBeats() {
 /**
  * Will update the light intensity bump based on measured amplitudes.
  */
-void updateLightIntensityBasedOnAmplitudes() {
+void Beatdetector::updateLightIntensityBasedOnAmplitudes() {
   float intensity;
   if (averageSignal < 1 || currentSignal < 1) {
     intensity = 0;
@@ -414,7 +414,7 @@ void updateLightIntensityBasedOnAmplitudes() {
 /**
  * Will update the hat lights based on the last light intensity bumps.
  */
-void updateLights() {
+void Beatdetector::updateLights() {
   long durationSinceLastBump = millis() - lightIntensityBumpTimestamp;
   float fadeFactor = 1 - ((float) durationSinceLastBump / LIGHT_FADE_OUT_DURATION);
   fadeFactor = constrain(fadeFactor, 0, 1);
@@ -463,7 +463,7 @@ void updateLights() {
  * Converts the specified value into an ASCII-art progressbar
  * with the specified length.
  */
-String toProgressBar(float value, const int length) {
+String Beatdetector::toProgressBar(float value, const int length) {
   int amount = max(0, min(length, value * length));
   String progressBar = "[";
   for (int i = 0; i < amount; i++) {
@@ -476,14 +476,14 @@ String toProgressBar(float value, const int length) {
   return progressBar;
 }
 
-void logValue(String name, boolean value) {
+void Beatdetector::logValue(String name, boolean value) {
   logValue(name, value ? 1.0 : 0.0, 1);
 }
 
-void logValue(String name, float value) {
+void Beatdetector::logValue(String name, float value) {
   logValue(name, value, 10);
 }
 
-void logValue(String name, float value, int length) {
+void Beatdetector::logValue(String name, float value, int length) {
   Serial.print(" | " + name + ": " + toProgressBar(value, length));
 }
