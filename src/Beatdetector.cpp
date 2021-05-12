@@ -357,7 +357,7 @@ float Beatdetector::calculateVarianceFactor() {
  * Will calculate a value in range [0:1] based on the recency of the last detected beat.
  * Low values are indicating a low beat probability.
  */
-float calculateRecencyFactor() {
+float Beatdetector::calculateRecencyFactor() {
   float recencyFactor = 1;
   durationSinceLastBeat = millis() - lastBeatTimestamp;
   

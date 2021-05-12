@@ -80,6 +80,10 @@ class Beatdetector {
     void logValue(String name, float value);
     void logValue(String name, boolean value);
     void logFrequencyData();
+    byte getFrequencyMagnitude(byte frequencies[], const int startIndex, const int endIndex);
+    float calculateMagnitudeChangeFactor();
+    float calculateVarianceFactor();
+    float calculateRecencyFactor();
 
 
     int frequencyMagnitudeSampleIndex = 0;
