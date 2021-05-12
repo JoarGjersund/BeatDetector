@@ -435,7 +435,7 @@ int Beatdetector::getIntensity() {
   // scale the intensity to be in range of maximum and minimum
   float scaledLightIntensity = MINIMUM_LIGHT_INTENSITY + (lightIntensityValue * (MAXIMUM_LIGHT_INTENSITY - MINIMUM_LIGHT_INTENSITY));
   
-  int pinValue = 255 * scaledLightIntensity;
+  int pinValue1 = 255 * scaledLightIntensity;
 
 
   
@@ -453,14 +453,14 @@ int Beatdetector::getIntensity() {
   
   //logValue("P", scaledLightIntensity, 10);
   
-  pinValue = 255 * scaledLightIntensity;
+  int pinValue2 = 255 * scaledLightIntensity;
 
   
   if (durationSincePulse >= LIGHT_PULSE_DELAY) {
     lastPulseTimestamp = millis();
   }
 
-  return pinValue;
+  return pinValue1;
 }
 /**
  * Will update the hat lights based on the last light intensity bumps.
