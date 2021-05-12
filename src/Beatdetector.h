@@ -16,6 +16,50 @@
 #define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
 
 
+// Set to true if you want to use the FHT 128 channel analyser to visualize
+// the detected frequencies. Will disable beat detection.
+const bool LOG_FREQUENCY_DATA = false;
+
+// Set to true if the light should be based on detected beats instead
+// of detected amplitudes.
+const bool PERFORM_BEAT_DETECTION = false;
+
+const int SOUND_REFERENCE_PIN = 8; // D8
+const int HAT_LIGHTS_PIN = 6; // D9
+const int HAT_LIGHTS_LOW_PIN = 5; // D11
+const int HAT_LIGHTS_HIGH_PIN = 4; // D12
+const int HAT_LIGHTS_PULSE_PIN = 7; // D13
+
+const int LIGHT_PULSE_DELAY = 10000;
+const int LIGHT_PULSE_DURATION = 2000;
+
+const int LIGHT_FADE_OUT_DURATION = 500; // good value range is [100:1000]
+const float MINIMUM_LIGHT_INTENSITY = 0.01; // in range [0:1]
+const float MAXIMUM_LIGHT_INTENSITY = 0.2; // in range [0:1]
+
+const int MAXIMUM_SIGNAL_VALUE = 1024;
+
+const int OVERALL_FREQUENCY_RANGE_START = 2; // should be 0, but first 2 bands produce too much noise
+const int OVERALL_FREQUENCY_RANGE_END = FHT_N / 2;
+const int OVERALL_FREQUENCY_RANGE = OVERALL_FREQUENCY_RANGE_END - OVERALL_FREQUENCY_RANGE_START;
+
+const int FIRST_FREQUENCY_RANGE_START = 2;
+const int FIRST_FREQUENCY_RANGE_END = 4;
+const int FIRST_FREQUENCY_RANGE = FIRST_FREQUENCY_RANGE_END - FIRST_FREQUENCY_RANGE_START;
+
+const int SECOND_FREQUENCY_RANGE_START = 2;
+const int SECOND_FREQUENCY_RANGE_END = 6;
+const int SECOND_FREQUENCY_RANGE = SECOND_FREQUENCY_RANGE_END - SECOND_FREQUENCY_RANGE_START;
+
+const int MAXIMUM_BEATS_PER_MINUTE = 200;
+const int MINIMUM_DELAY_BETWEEN_BEATS = 60000L / MAXIMUM_BEATS_PER_MINUTE;
+const int SINGLE_BEAT_DURATION = 100; // good value range is [50:150]
+
+const int FREQUENCY_MAGNITUDE_SAMPLES = 5; // good value range is [5:15]
+
+
+
+
 class Beatdetector {
     public:
    Beatdetector::Beatdetector(int analog_input_pin);
@@ -28,46 +72,6 @@ class Beatdetector {
     Beatdetector::getFrequencyData();
     Beatdetector::processFrequencyData();
 
-    // Set to true if you want to use the FHT 128 channel analyser to visualize
-    // the detected frequencies. Will disable beat detection.
-    const bool LOG_FREQUENCY_DATA = false;
-
-    // Set to true if the light should be based on detected beats instead
-    // of detected amplitudes.
-    const bool PERFORM_BEAT_DETECTION = false;
-
-    const int SOUND_REFERENCE_PIN = 8; // D8
-    const int HAT_LIGHTS_PIN = 6; // D9
-    const int HAT_LIGHTS_LOW_PIN = 5; // D11
-    const int HAT_LIGHTS_HIGH_PIN = 4; // D12
-    const int HAT_LIGHTS_PULSE_PIN = 7; // D13
-
-    const int LIGHT_PULSE_DELAY = 10000;
-    const int LIGHT_PULSE_DURATION = 2000;
-
-    const int LIGHT_FADE_OUT_DURATION = 500; // good value range is [100:1000]
-    const float MINIMUM_LIGHT_INTENSITY = 0.01; // in range [0:1]
-    const float MAXIMUM_LIGHT_INTENSITY = 0.2; // in range [0:1]
-
-    const int MAXIMUM_SIGNAL_VALUE = 1024;
-
-    const int OVERALL_FREQUENCY_RANGE_START = 2; // should be 0, but first 2 bands produce too much noise
-    const int OVERALL_FREQUENCY_RANGE_END = FHT_N / 2;
-    const int OVERALL_FREQUENCY_RANGE = OVERALL_FREQUENCY_RANGE_END - OVERALL_FREQUENCY_RANGE_START;
-
-    const int FIRST_FREQUENCY_RANGE_START = 2;
-    const int FIRST_FREQUENCY_RANGE_END = 4;
-    const int FIRST_FREQUENCY_RANGE = FIRST_FREQUENCY_RANGE_END - FIRST_FREQUENCY_RANGE_START;
-
-    const int SECOND_FREQUENCY_RANGE_START = 2;
-    const int SECOND_FREQUENCY_RANGE_END = 6;
-    const int SECOND_FREQUENCY_RANGE = SECOND_FREQUENCY_RANGE_END - SECOND_FREQUENCY_RANGE_START;
-
-    const int MAXIMUM_BEATS_PER_MINUTE = 200;
-    const int MINIMUM_DELAY_BETWEEN_BEATS = 60000L / MAXIMUM_BEATS_PER_MINUTE;
-    const int SINGLE_BEAT_DURATION = 100; // good value range is [50:150]
-
-    const int FREQUENCY_MAGNITUDE_SAMPLES = 5; // good value range is [5:15]
 
     int frequencyMagnitudeSampleIndex = 0;
     int currentOverallFrequencyMagnitude = 0;
