@@ -479,12 +479,7 @@ void Beatdetector::updateLights() {
   int pinValue = 255 * scaledLightIntensity;
   analogWrite(HAT_LIGHTS_PIN, pinValue);
   
-  // also use the builtin LED, for debugging when no lights are connected
-  if (scaledLightIntensity > MAXIMUM_LIGHT_INTENSITY - ((MAXIMUM_LIGHT_INTENSITY - MINIMUM_LIGHT_INTENSITY) / 4)) {
-    digitalWrite(LED_BUILTIN, HIGH);
-  } else {
-    digitalWrite(LED_BUILTIN, LOW);
-  }
+
   
   // update the pulse signal
   long durationSincePulse = millis() - lastPulseTimestamp;
