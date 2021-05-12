@@ -91,7 +91,7 @@ void readAudioSamples() {
  *
  * See: http://wiki.openmusiclabs.com/wiki/ArduinoFHT
  */
-void getFrequencyData() {
+void Beatdetector::getFrequencyData() {
   fht_window(); // window the data for better frequency response
   fht_reorder(); // reorder the data before doing the FHT
   fht_run(); // process the data in the FHT

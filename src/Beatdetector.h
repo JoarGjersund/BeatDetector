@@ -63,14 +63,13 @@ const int FREQUENCY_MAGNITUDE_SAMPLES = 5; // good value range is [5:15]
 class Beatdetector {
     public:
    Beatdetector::Beatdetector(int analog_input_pin);
-   Beatdetector::init();
+   bool Beatdetector::init();
    void Beatdetector::update();
 
     private:
-    Beatdetector::setupADC();
     void Beatdetector::readAudioSamples();
-    Beatdetector::getFrequencyData();
-    Beatdetector::processFrequencyData();
+    void Beatdetector::getFrequencyData();
+    void Beatdetector::processFrequencyData();
 
 
     int frequencyMagnitudeSampleIndex = 0;
