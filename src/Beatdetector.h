@@ -74,7 +74,9 @@ class Beatdetector {
     void processFirstFrequencyMagnitude();
     void processSecondFrequencyMagnitude();
     void updateBeatProbability();
+    void updateLights();
     void updateLightIntensityBasedOnBeats();
+    void updateLightIntensityBasedOnAmplitudes();
     void processHistoryValues(byte history[], int &historyIndex, int &current, int &total, int &average, int &variance);
     void logValue(String name, float value, int length);
     void logValue(String name, float value);
@@ -84,6 +86,8 @@ class Beatdetector {
     float calculateMagnitudeChangeFactor();
     float calculateVarianceFactor();
     float calculateRecencyFactor();
+    float calculateSignalChangeFactor();
+    String toProgressBar(float value, const int length);
 
 
     int frequencyMagnitudeSampleIndex = 0;
