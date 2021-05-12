@@ -62,17 +62,20 @@ const int FREQUENCY_MAGNITUDE_SAMPLES = 5; // good value range is [5:15]
 
 class Beatdetector {
     public:
-   Beatdetector::Beatdetector(int analog_input_pin);
-   bool Beatdetector::init();
-   void Beatdetector::update();
+    Beatdetector(int analog_input_pin);
+    bool init();
+    void update();
 
     private:
-    void Beatdetector::readAudioSamples();
-    void Beatdetector::getFrequencyData();
-    void Beatdetector::processFrequencyData();
+    void readAudioSamples();
+    void getFrequencyData();
+    void processFrequencyData();
+    void processOverallFrequencyMagnitude();
+    void processFirstFrequencyMagnitude();
+    void processSecondFrequencyMagnitude();
     void updateBeatProbability();
     void updateLightIntensityBasedOnBeats();
-    void Beatdetector::processHistoryValues(byte history[], int &historyIndex, int &current, int &total, int &average, int &variance);
+    void processHistoryValues(byte history[], int &historyIndex, int &current, int &total, int &average, int &variance);
     void logValue(String name, float value, int length);
     void logValue(String name, float value);
     void logValue(String name, boolean value);
