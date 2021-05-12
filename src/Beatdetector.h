@@ -70,6 +70,13 @@ class Beatdetector {
     void Beatdetector::readAudioSamples();
     void Beatdetector::getFrequencyData();
     void Beatdetector::processFrequencyData();
+    void updateBeatProbability();
+    void updateLightIntensityBasedOnBeats();
+    void Beatdetector::processHistoryValues(byte history[], int &historyIndex, int &current, int &total, int &average, int &variance);
+    void logValue(String name, float value, int length);
+    void logValue(String name, float value);
+    void logValue(String name, boolean value);
+    void logFrequencyData();
 
 
     int frequencyMagnitudeSampleIndex = 0;
