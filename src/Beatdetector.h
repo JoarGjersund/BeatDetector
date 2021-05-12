@@ -67,7 +67,7 @@ class Beatdetector {
     public:
     Beatdetector(int analog_input_pin);
     bool init();
-    uint8_t update();
+    int update();
 
     private:
     void readAudioSamples();
@@ -78,7 +78,7 @@ class Beatdetector {
     void processSecondFrequencyMagnitude();
     void updateBeatProbability();
     void updateLights();
-    uint8_t getIntensity();
+    int getIntensity();
     void updateLightIntensityBasedOnBeats();
     void updateLightIntensityBasedOnAmplitudes();
     void processHistoryValues(byte history[], int &historyIndex, int &current, int &total, int &average, int &variance);

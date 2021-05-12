@@ -39,7 +39,7 @@ bool Beatdetector::init() {
     return true;
 }
 
-uint8_t Beatdetector::update() {
+int Beatdetector::update() {
 
 
     readAudioSamples();
@@ -421,7 +421,7 @@ void Beatdetector::updateLightIntensityBasedOnAmplitudes() {
   }
 }
 
-uint8_t Beatdetector::getIntensity() {
+int Beatdetector::getIntensity() {
 
   long durationSinceLastBump = millis() - lightIntensityBumpTimestamp;
   float fadeFactor = 1 - ((float) durationSinceLastBump / LIGHT_FADE_OUT_DURATION);
@@ -436,7 +436,7 @@ uint8_t Beatdetector::getIntensity() {
   float scaledLightIntensity = MINIMUM_LIGHT_INTENSITY + (lightIntensityValue * (MAXIMUM_LIGHT_INTENSITY - MINIMUM_LIGHT_INTENSITY));
   
   int pinValue = 255 * scaledLightIntensity;
-  
+
 
   
   // update the pulse signal
@@ -454,6 +454,7 @@ uint8_t Beatdetector::getIntensity() {
   //logValue("P", scaledLightIntensity, 10);
   
   pinValue = 255 * scaledLightIntensity;
+
   
   if (durationSincePulse >= LIGHT_PULSE_DELAY) {
     lastPulseTimestamp = millis();
