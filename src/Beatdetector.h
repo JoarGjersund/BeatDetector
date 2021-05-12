@@ -6,7 +6,7 @@
 // FHT, see http://wiki.openmusiclabs.com/wiki/ArduinoFHT
 #define LOG_OUT 1 // use the log output function
 #define FHT_N 128 // amount of bins to use
-#include <FHT.h> // include the library
+
 
 #define FreqLog // use log scale for FHT frequencies
 #define FreqGainFactorBits 0

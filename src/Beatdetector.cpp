@@ -1,5 +1,9 @@
 #include <Beatdetector.h>
 
+#ifndef _beatdetector_cpp // include guard
+#define _beatdetector_cpp
+#include <FHT.h> // include the library
+
 Beatdetector::Beatdetector(int analog_input_pin){
 
 input_pin_audio=analog_input_pin;
@@ -487,3 +491,5 @@ void Beatdetector::logValue(String name, float value) {
 void Beatdetector::logValue(String name, float value, int length) {
   Serial.print(" | " + name + ": " + toProgressBar(value, length));
 }
+
+#endif
