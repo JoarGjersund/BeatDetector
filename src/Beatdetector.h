@@ -78,6 +78,7 @@ class Beatdetector {
     void processSecondFrequencyMagnitude();
     void updateBeatProbability();
     void updateLights();
+    uint8_t getIntensity();
     void updateLightIntensityBasedOnBeats();
     void updateLightIntensityBasedOnAmplitudes();
     void processHistoryValues(byte history[], int &historyIndex, int &current, int &total, int &average, int &variance);
