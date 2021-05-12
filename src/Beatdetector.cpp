@@ -17,12 +17,13 @@ bool Beatdetector::init() {
 
     if (input_pin_audio == A7)
         ADMUX |= 0x47; // Use Vcc for analog reference.
-    if (input_pin_audio == A0)
-        ADMUX |= 0x40; // Use Vcc for analog reference.
-    else
+    if (input_pin_audio == A0){
+      DIDR0 = 0x01; // turn off the digital input for adc0
+      ADMUX |= 0x40; // Use Vcc for analog reference.
+    }else
         return false;
 
-    DIDR0 = 0x01; // turn off the digital input for adc0
+    
 
 
 
