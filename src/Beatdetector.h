@@ -62,8 +62,8 @@ const int FREQUENCY_MAGNITUDE_SAMPLES = 5; // good value range is [5:15]
 
 class Beatdetector {
     public:
-    Beatdetector();
-    bool init(int input_pin_audio);
+    Beatdetector(int analog_input_pin);
+    bool init();
     void update();
 
     private:
@@ -125,6 +125,9 @@ class Beatdetector {
     float lightIntensityValue = 0;
 
     long lastPulseTimestamp = 0;
+
+
+    int input_pin_audio= A0;
 
 
 };

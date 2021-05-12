@@ -1,11 +1,12 @@
 #include <Beatdetector.h>
 
-Beatdetector::Beatdetector(){
+Beatdetector::Beatdetector(int analog_input_pin){
 
+input_pin_audio=analog_input_pin;
 
 }
 
-bool Beatdetector::init(int input_pin_audio) {
+bool Beatdetector::init() {
 
     ADCSRA = 0xe0+7; // "ADC Enable", "ADC Start Conversion", "ADC Auto Trigger Enable" and divider.
     ADMUX = 0x0; // use adc0. Use ARef pin for analog reference (same as analogReference(EXTERNAL)).
