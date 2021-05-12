@@ -38,7 +38,7 @@ bool Beatdetector::init() {
     return true;
 }
 
-void Beatdetector::update() {
+uint8_t Beatdetector::update() {
 
 
     readAudioSamples();
@@ -46,7 +46,7 @@ void Beatdetector::update() {
     processFrequencyData();
     updateBeatProbability();
     updateLightIntensityBasedOnBeats();
-    updateLights();
+    return getIntensity();
 
 }
 
@@ -420,6 +420,46 @@ void Beatdetector::updateLightIntensityBasedOnAmplitudes() {
   }
 }
 
+uint8_t Beatdetector::getIntensity() {
+
+  long durationSinceLastBump = millis() - lightIntensityBumpTimestamp;
+  float fadeFactor = 1 - ((float) durationSinceLastBump / LIGHT_FADE_OUT_DURATION);
+  fadeFactor = constrain(fadeFactor, 0, 1);
+  
+  lightIntensityValue = lightIntensityBumpValue * fadeFactor;
+  lightIntensityValue = constrain(lightIntensityValue, 0, 1);
+  
+  logValue("L", lightIntensityValue, 20);
+  
+  // scale the intensity to be in range of maximum and minimum
+  float scaledLightIntensity = MINIMUM_LIGHT_INTENSITY + (lightIntensityValue * (MAXIMUM_LIGHT_INTENSITY - MINIMUM_LIGHT_INTENSITY));
+  
+  int pinValue = 255 * scaledLightIntensity;
+  
+
+  
+  // update the pulse signal
+  long durationSincePulse = millis() - lastPulseTimestamp;
+  fadeFactor = ((float) durationSincePulse / (LIGHT_PULSE_DURATION * 2));
+  if (durationSincePulse >= LIGHT_PULSE_DURATION) {
+    fadeFactor = 1 - fadeFactor;
+  }
+  fadeFactor *= 2;
+  fadeFactor = constrain(fadeFactor, 0, 1);
+  
+  // scale the intensity to be in range of maximum and minimum
+  scaledLightIntensity = MINIMUM_LIGHT_INTENSITY + (fadeFactor * (MAXIMUM_LIGHT_INTENSITY - MINIMUM_LIGHT_INTENSITY));
+  
+  //logValue("P", scaledLightIntensity, 10);
+  
+  pinValue = 255 * scaledLightIntensity;
+  
+  if (durationSincePulse >= LIGHT_PULSE_DELAY) {
+    lastPulseTimestamp = millis();
+  }
+
+  return pinValue;
+}
 /**
  * Will update the hat lights based on the last light intensity bumps.
  */
