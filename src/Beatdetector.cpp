@@ -26,6 +26,8 @@ bool Beatdetector::init() {
 
 
 
+
+
   for (int i = 0; i < FREQUENCY_MAGNITUDE_SAMPLES; i++) {
     overallFrequencyMagnitudes[i] = 0;
     firstFrequencyMagnitudes[i] = 0;
@@ -38,10 +40,13 @@ bool Beatdetector::init() {
 
 void Beatdetector::update() {
 
+
+    readAudioSamples();
     getFrequencyData();
     processFrequencyData();
     updateBeatProbability();
     updateLightIntensityBasedOnBeats();
+    updateLights();
 
 }
 
