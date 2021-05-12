@@ -4,10 +4,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 // FHT, see http://wiki.openmusiclabs.com/wiki/ArduinoFHT
-#ifndef LOG_OUT
 #define LOG_OUT 1 // use the log output function
-#endif
-
 #define FHT_N 128 // amount of bins to use
 
 

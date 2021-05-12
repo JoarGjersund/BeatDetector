@@ -534,7 +534,9 @@ void Beatdetector::logValue(String name, float value) {
 }
 
 void Beatdetector::logValue(String name, float value, int length) {
+  #ifdef DBG
   Serial.print(" | " + name + ": " + toProgressBar(value, length));
+  #endif
 }
 
 #endif

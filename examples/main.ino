@@ -2,6 +2,7 @@
 #include <Wire.h>
 #include <avr/wdt.h>
 #include <Beatdetector.h>
+#define DBG // will print visualization
 
 Beatdetector headbanger = Beatdetector(A7);
 void setup() {
